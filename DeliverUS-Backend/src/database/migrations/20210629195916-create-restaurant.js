@@ -86,6 +86,17 @@ module.exports = {
           },
           key: 'id'
         }
+      },
+      // SOLUCIÓN
+      codigoDescuento: {
+        // allowNull: true,
+        type: Sequelize.STRING
+        // len: [1, 10]
+      },
+      descuento: {
+        type: Sequelize.INTEGER
+        // min: 1,
+        // max: 99
       }
     })
   },

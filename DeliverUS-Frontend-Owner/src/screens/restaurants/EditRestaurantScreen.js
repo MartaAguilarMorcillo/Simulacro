@@ -22,7 +22,8 @@ export default function EditRestaurantScreen ({ navigation, route }) {
   const [backendErrors, setBackendErrors] = useState()
   const [restaurant, setRestaurant] = useState({})
 
-  const [initialRestaurantValues, setInitialRestaurantValues] = useState({ name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null, logo: null, heroImage: null })
+  // SOLUCIÓN
+  const [initialRestaurantValues, setInitialRestaurantValues] = useState({ name: null, description: null, address: null, postalCode: null, url: null, shippingCosts: null, email: null, phone: null, restaurantCategoryId: null, logo: null, heroImage: null, codigoDescuento: null, descuento: null })
   const validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -56,7 +57,17 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .number()
       .positive()
       .integer()
-      .required('Restaurant category is required')
+      .required('Restaurant category is required'),
+    // SOLUCIÓN
+    codigoDescuento: yup
+      .string()
+      .nullable()
+      .max(10, 'Discount code too long'),
+    descuento: yup
+      .number()
+      .nullable()
+      .positive('Please provide a positive discount value')
+      .integer('Please provide an integer discount value')
   })
 
   useEffect(() => {
@@ -151,6 +162,7 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       initialValues={initialRestaurantValues}
       onSubmit={updateRestaurant}>
       {({ handleSubmit, setFieldValue, values }) => (
+        // SOLUCIÓN
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <View style={{ width: '60%' }}>
@@ -185,6 +197,14 @@ export default function EditRestaurantScreen ({ navigation, route }) {
               <InputItem
                 name='phone'
                 label='Phone:'
+              />
+              <InputItem
+                name='codigoDescuento'
+                label='Discount Code:'
+              />
+              <InputItem
+                name='descuento'
+                label='Discount Value:'
               />
 
               <DropDownPicker
